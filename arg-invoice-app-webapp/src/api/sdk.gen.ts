@@ -210,6 +210,11 @@ export type InvoiceQueryVariables = Exact<{
 
 export type InvoiceQuery = { __typename?: 'Query', invoice: { __typename?: 'Invoice', id: number, amount: number, currency: Currency, customerCity: string, customerCountry: string, customerEmail: string, customerName: string, customerStreet: string, customerZip: string, dueDate: string, issueDate: string, number: string, projectDescription: string, status: InvoiceStatus, vendorCity: string, vendorCountry: string, vendorStreet: string, vendorZip: string, items: Array<{ __typename?: 'InvoiceItem', id: number, description: string, pricePerUnit: number, quantity: number }> } };
 
+export type InvoicesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type InvoicesQuery = { __typename?: 'Query', invoices: Array<{ __typename?: 'Invoice', id: number, number: string, status: InvoiceStatus, dueDate: string, customerName: string, amount: number, currency: Currency }> };
+
 export type CreateInvoiceMutationVariables = Exact<{
   input: CreateInvoiceInput;
 }>;
@@ -310,6 +315,19 @@ export const InvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<InvoiceQuery, InvoiceQueryVariables>;
+export const InvoicesDocument = new TypedDocumentString(`
+    query invoices {
+  invoices {
+    id
+    number
+    status
+    dueDate
+    customerName
+    amount
+    currency
+  }
+}
+    `) as unknown as TypedDocumentString<InvoicesQuery, InvoicesQueryVariables>;
 export const CreateInvoiceDocument = new TypedDocumentString(`
     mutation createInvoice($input: CreateInvoiceInput!) {
   createInvoice(input: $input) {

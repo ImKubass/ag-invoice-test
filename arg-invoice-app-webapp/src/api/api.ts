@@ -15,6 +15,7 @@ import {
 	type DeleteInvoiceMutationVariables,
 	InvoiceDocument,
 	type InvoiceQueryVariables,
+	InvoicesDocument,
 	LoginDocument,
 	type LoginMutation,
 	type LoginMutationVariables,
@@ -82,6 +83,12 @@ export const api = {
 		return queryOptions({
 			queryKey: queriesKeyFactory.invoices.detail(variables),
 			queryFn: fetcher(InvoiceDocument, variables),
+		});
+	},
+	invoicesQueryOptions: () => {
+		return queryOptions({
+			queryKey: queriesKeyFactory.invoices.list(),
+			queryFn: fetcher(InvoicesDocument),
 		});
 	},
 	createInvoiceMutation: (

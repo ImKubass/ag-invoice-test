@@ -45,6 +45,18 @@ query invoice($id: Int!) {
 	}
 }
 
+query invoices {
+  invoices {
+    id
+    number
+    status
+    dueDate
+    customerName
+    amount
+    currency
+  }
+}
+
 mutation createInvoice($input: CreateInvoiceInput!) {
 	createInvoice(input: $input) {
 		id

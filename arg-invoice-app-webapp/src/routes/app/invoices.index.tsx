@@ -1,4 +1,6 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { api } from "../../api/api.js";
 import { RouterButton } from "../../components/app-ui/RouterButton.js";
 import { AppLayoutContent } from "../../layouts/app-layout.js";
 import { InvoiceFilter } from "../../modules/invoice/components/InvoiceFilter.js";
@@ -16,6 +18,21 @@ export const Route = createFileRoute("/app/invoices/")({
 
 function ViewInvoiceComponent() {
 	const { status } = Route.useSearch();
+
+	const {
+		data: { invoices },
+	} = useSuspenseQuery({
+		...api.invoicesQueryOptions(),
+	});
+
+	const filteredInvoices = invoices.filter((invoice) => {
+		if (status === "all") {
+			return true;
+		}
+		return invoice.status === status;
+	});
+
+	console.log(filteredInvoices);
 
 	return (
 		<AppLayoutContent className={"flex flex-col gap-4"}>
