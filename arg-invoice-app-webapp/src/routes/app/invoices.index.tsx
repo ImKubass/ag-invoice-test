@@ -39,7 +39,6 @@ function ViewInvoiceComponent() {
 		return invoice.status === status;
 	});
 
-	console.log(filteredInvoices);
 
 	return (
 		<AppLayoutContent className={"flex flex-col gap-4"}>
