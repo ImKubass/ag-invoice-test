@@ -39,7 +39,7 @@ export const InvoiceFilter = (props: { className?: string }) => {
 	const onSubmit = (data: FilterSchema) => {
 		navigate({
 			to: ".",
-			search: (prev) => ({ ...prev, status: data.status }),
+			search: (prev) => ({ ...prev, status: data.status, page: 1 }),
 		});
 	};
 

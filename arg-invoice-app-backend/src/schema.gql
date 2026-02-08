@@ -76,6 +76,13 @@ enum InvoiceStatus {
   pending
 }
 
+type Invoices {
+  data: [Invoice!]!
+  page: Int!
+  pageSize: Int!
+  total: Int!
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -98,7 +105,7 @@ type Mutation {
 
 type Query {
   invoice(id: Int!): Invoice!
-  invoices: [Invoice!]!
+  invoices(page: Int! = 1, pageSize: Int! = 20, status: InvoiceStatus): Invoices!
   me: User!
   status: String!
 }

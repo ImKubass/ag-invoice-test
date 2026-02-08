@@ -76,6 +76,14 @@ export type InvoiceItem = {
   quantity: Scalars['Float']['output'];
 };
 
+export type Invoices = {
+  __typename?: 'Invoices';
+  data: Array<Invoice>;
+  page: Scalars['Int']['output'];
+  pageSize: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+};
+
 export type InvoiceItemInput = {
   description: Scalars['String']['input'];
   id?: InputMaybe<Scalars['Int']['input']>;
@@ -140,7 +148,7 @@ export type MutationUpdateInvoiceArgs = {
 export type Query = {
   __typename?: 'Query';
   invoice: Invoice;
-  invoices: Array<Invoice>;
+  invoices: Invoices;
   me: User;
   status: Scalars['String']['output'];
 };
@@ -148,6 +156,12 @@ export type Query = {
 
 export type QueryInvoiceArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryInvoicesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InvoiceStatus>;
 };
 
 export type RegisterInput = {
@@ -210,10 +224,14 @@ export type InvoiceQueryVariables = Exact<{
 
 export type InvoiceQuery = { __typename?: 'Query', invoice: { __typename?: 'Invoice', id: number, amount: number, currency: Currency, customerCity: string, customerCountry: string, customerEmail: string, customerName: string, customerStreet: string, customerZip: string, dueDate: string, issueDate: string, number: string, projectDescription: string, status: InvoiceStatus, vendorCity: string, vendorCountry: string, vendorStreet: string, vendorZip: string, items: Array<{ __typename?: 'InvoiceItem', id: number, description: string, pricePerUnit: number, quantity: number }> } };
 
-export type InvoicesQueryVariables = Exact<{ [key: string]: never; }>;
+export type InvoicesQueryVariables = Exact<{
+  status?: InputMaybe<InvoiceStatus>;
+  page: Scalars['Int']['input'];
+  pageSize: Scalars['Int']['input'];
+}>;
 
 
-export type InvoicesQuery = { __typename?: 'Query', invoices: Array<{ __typename?: 'Invoice', id: number, number: string, status: InvoiceStatus, dueDate: string, customerName: string, amount: number, currency: Currency }> };
+export type InvoicesQuery = { __typename?: 'Query', invoices: { __typename?: 'Invoices', total: number, page: number, pageSize: number, data: Array<{ __typename?: 'Invoice', id: number, number: string, status: InvoiceStatus, dueDate: string, customerName: string, amount: number, currency: Currency }> } };
 
 export type CreateInvoiceMutationVariables = Exact<{
   input: CreateInvoiceInput;
@@ -316,15 +334,20 @@ export const InvoiceDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<InvoiceQuery, InvoiceQueryVariables>;
 export const InvoicesDocument = new TypedDocumentString(`
-    query invoices {
-  invoices {
-    id
-    number
-    status
-    dueDate
-    customerName
-    amount
-    currency
+    query invoices($status: InvoiceStatus, $page: Int!, $pageSize: Int!) {
+  invoices(status: $status, page: $page, pageSize: $pageSize) {
+    data {
+      id
+      number
+      status
+      dueDate
+      customerName
+      amount
+      currency
+    }
+    total
+    page
+    pageSize
   }
 }
     `) as unknown as TypedDocumentString<InvoicesQuery, InvoicesQueryVariables>;

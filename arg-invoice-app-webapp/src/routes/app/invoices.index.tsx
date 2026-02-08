@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import type { ChangeEvent } from "react";
 import { api } from "../../api/api.js";
 import { InvoiceStatus } from "../../api/sdk.gen.js";
 import { RouterButton } from "../../components/app-ui/RouterButton.js";
 import { Card } from "../../components/basic-ui/Card.js";
+import { Select } from "../../components/basic-ui/TextField.js";
 import {
 	formatDate,
 	formatPrice,
@@ -24,20 +26,37 @@ export const Route = createFileRoute("/app/invoices/")({
 });
 
 function ViewInvoiceComponent() {
-	const { status } = Route.useSearch();
+	const { status, page, pageSize } = Route.useSearch();
+	const navigate = useNavigate();
 
 	const {
 		data: { invoices },
 	} = useSuspenseQuery({
-		...api.invoicesQueryOptions(),
+		...api.invoicesQueryOptions({
+			status:
+				status === "all"
+					? undefined
+					: status === "paid"
+						? InvoiceStatus.Paid
+						: InvoiceStatus.Pending,
+			page,
+			pageSize,
+		}),
 	});
 
-	const filteredInvoices = invoices.filter((invoice) => {
-		if (status === "all") {
-			return true;
-		}
-		return invoice.status === status;
-	});
+	const totalPages = Math.max(
+		1,
+		Math.ceil(invoices.total / invoices.pageSize),
+	);
+	const canGoPrev = page > 1;
+	const canGoNext = page < totalPages;
+	const handlePageSizeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		const nextPageSize = Number(event.target.value);
+		navigate({
+			to: ".",
+			search: (prev) => ({ ...prev, pageSize: nextPageSize, page: 1 }),
+		});
+	};
 
 
 	return (
@@ -48,11 +67,11 @@ function ViewInvoiceComponent() {
 						Invoices
 					</h1>
 					<div className="text-text-secondary typo-body">
-						There are {invoices.length} total invoices
+						There are {invoices.total} total invoices
 					</div>
 				</header>
 
-				{invoices.length > 0 && <InvoiceFilter className={"row-span-2"} />}
+        <InvoiceFilter className={"row-span-2"} />
 
 				<RouterButton
 					variant={"primary"}
@@ -65,13 +84,13 @@ function ViewInvoiceComponent() {
 				</RouterButton>
 			</div>
 
-			{filteredInvoices.length === 0 ? (
+			{invoices.data.length === 0 ? (
 				<Card className="text-text-secondary text-center typo-body">
 					No invoices found.
 				</Card>
 			) : (
 				<div className="grid gap-4">
-					{filteredInvoices.map((invoice) => (
+					{invoices.data.map((invoice) => (
 						<Card
 							key={invoice.id}
 							as={Link}
@@ -99,6 +118,52 @@ function ViewInvoiceComponent() {
 							/>
 						</Card>
 					))}
+				</div>
+			)}
+
+			{invoices.total > 0 && (
+				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div className="text-text-secondary typo-body">
+						Page {page} of {totalPages}
+					</div>
+					<div className="flex flex-wrap items-center gap-2">
+						<div className="flex items-center gap-2 text-text-secondary typo-body">
+							<span>Per page</span>
+							<Select
+								value={pageSize}
+								onChange={handlePageSizeChange}
+								className="w-24"
+							>
+								<option value={2}>2</option>
+								<option value={10}>10</option>
+								<option value={20}>20</option>
+								<option value={50}>50</option>
+								<option value={100}>100</option>
+							</Select>
+						</div>
+						<RouterButton
+							variant={"tertiary"}
+							disabled={!canGoPrev}
+							to="."
+							search={(prev) => ({
+								...prev,
+								page: Math.max(1, prev.page - 1),
+							})}
+						>
+							Previous
+						</RouterButton>
+						<RouterButton
+							variant={"tertiary"}
+							disabled={!canGoNext}
+							to="."
+							search={(prev) => ({
+								...prev,
+								page: Math.min(totalPages, prev.page + 1),
+							})}
+						>
+							Next
+						</RouterButton>
+					</div>
 				</div>
 			)}
 		</AppLayoutContent>

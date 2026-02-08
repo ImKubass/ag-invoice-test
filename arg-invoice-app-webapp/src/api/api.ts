@@ -16,6 +16,7 @@ import {
 	InvoiceDocument,
 	type InvoiceQueryVariables,
 	InvoicesDocument,
+	type InvoicesQueryVariables,
 	LoginDocument,
 	type LoginMutation,
 	type LoginMutationVariables,
@@ -35,7 +36,11 @@ const queriesKeyFactory = {
 	me: () => ["me"],
 	invoices: {
 		all: () => ["invoices"],
-		list: () => [queriesKeyFactory.invoices.all(), "list"],
+		list: (variables: InvoicesQueryVariables) => [
+			queriesKeyFactory.invoices.all(),
+			"list",
+			variables,
+		],
 		details: () => [queriesKeyFactory.invoices.all(), "detail"],
 		detail: (variables: InvoiceQueryVariables) => [
 			queriesKeyFactory.invoices.details(),
@@ -85,10 +90,10 @@ export const api = {
 			queryFn: fetcher(InvoiceDocument, variables),
 		});
 	},
-	invoicesQueryOptions: () => {
+	invoicesQueryOptions: (variables: InvoicesQueryVariables) => {
 		return queryOptions({
-			queryKey: queriesKeyFactory.invoices.list(),
-			queryFn: fetcher(InvoicesDocument),
+			queryKey: queriesKeyFactory.invoices.list(variables),
+			queryFn: fetcher(InvoicesDocument, variables),
 		});
 	},
 	createInvoiceMutation: (
@@ -109,7 +114,7 @@ export const api = {
 			mutationFn: (variables) => fetcher(CreateInvoiceDocument, variables)(),
 			onSuccess: (...params) => {
 				queryClient.invalidateQueries({
-					queryKey: queriesKeyFactory.invoices.list(),
+					queryKey: queriesKeyFactory.invoices.all(),
 				});
 
 				options?.onSuccess?.(...params);
@@ -134,7 +139,7 @@ export const api = {
 			mutationFn: (variables) => fetcher(UpdateInvoiceDocument, variables)(),
 			onSuccess: (data, variables, onMutateResult, context) => {
 				queryClient.invalidateQueries({
-					queryKey: queriesKeyFactory.invoices.list(),
+					queryKey: queriesKeyFactory.invoices.all(),
 				});
 				queryClient.invalidateQueries({
 					queryKey: queriesKeyFactory.invoices.detail({
@@ -164,7 +169,7 @@ export const api = {
 			mutationFn: (variables) => fetcher(DeleteInvoiceDocument, variables)(),
 			onSuccess: (data, variables, onMutateResult, context) => {
 				queryClient.invalidateQueries({
-					queryKey: queriesKeyFactory.invoices.list(),
+					queryKey: queriesKeyFactory.invoices.all(),
 				});
 				queryClient.removeQueries({
 					queryKey: queriesKeyFactory.invoices.detail({
@@ -195,7 +200,7 @@ export const api = {
 				fetcher(MarkInvoiceAsPaidDocument, variables)(),
 			onSuccess: (data, variables, onMutateResult, context) => {
 				queryClient.invalidateQueries({
-					queryKey: queriesKeyFactory.invoices.list(),
+					queryKey: queriesKeyFactory.invoices.all(),
 				});
 				queryClient.invalidateQueries({
 					queryKey: queriesKeyFactory.invoices.detail({

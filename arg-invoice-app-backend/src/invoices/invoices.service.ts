@@ -1,18 +1,18 @@
+import { InvoiceStatus } from "@generated/prisma";
 import {
 	BadRequestException,
 	Injectable,
 	NotFoundException,
 } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
+import { Currency } from "../enums";
 import {
 	CreateInvoiceInput,
 	InvoiceItemInput,
 	UpdateInvoiceInput,
 } from "../graphql/dtos/invoice.dto";
+import { PrismaService } from "../prisma/prisma.service";
 import { round } from "./calculations";
-import { Currency } from "../enums";
 import { createInvoiceNumber, incrementInvoiceNumber } from "./utils";
-import { InvoiceStatus } from "@generated/prisma";
 
 @Injectable()
 export class InvoicesService {
@@ -44,6 +44,39 @@ export class InvoicesService {
 			orderBy: { id: "desc" },
 			include: { items: true },
 		});
+	}
+
+	async findPage(
+		userId: number,
+		options: {
+			status?: InvoiceStatus | null;
+			page: number;
+			pageSize: number;
+		},
+	) {
+		const page = Math.max(1, options.page);
+		const pageSize = Math.min(Math.max(1, options.pageSize), 100);
+		const where = {
+			userId,
+			...(options.status ? { status: options.status } : {}),
+		};
+
+		const [total, data] = await this.prismaService.$transaction([
+			this.prismaService.invoice.count({ where }),
+			this.prismaService.invoice.findMany({
+				where,
+				orderBy: { id: "desc" },
+				skip: (page - 1) * pageSize,
+				take: pageSize,
+			}),
+		]);
+
+		return {
+			data,
+			total,
+			page,
+			pageSize,
+		};
 	}
 
 	async create(userId: number, data: CreateInvoiceInput) {

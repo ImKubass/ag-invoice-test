@@ -1,21 +1,32 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { InvoiceModel } from "../models/invoice.model";
-import { InvoicesService } from "../../invoices/invoices.service";
-import { UserData } from "../../auth/utils";
-import { type User } from "@generated/prisma";
-import { CreateInvoiceInput, UpdateInvoiceInput } from "../dtos/invoice.dto";
-import { SuccessModel } from "../models/success.model";
+import { InvoiceStatus, type User } from "@generated/prisma";
 import { BadRequestException } from "@nestjs/common";
-import { InvoiceInputSchema } from "../../validation/invoice.schema";
+import { Args, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { z } from "zod";
+import { UserData } from "../../auth/utils";
+import { InvoicesService } from "../../invoices/invoices.service";
+import { InvoiceInputSchema } from "../../validation/invoice.schema";
+import { CreateInvoiceInput, UpdateInvoiceInput } from "../dtos/invoice.dto";
+import { InvoiceModel, InvoicesModel } from "../models/invoice.model";
+import { SuccessModel } from "../models/success.model";
 
 @Resolver(() => InvoiceModel)
 export class InvoicesResolver {
 	constructor(private readonly invoicesService: InvoicesService) {}
 
-	@Query(() => [InvoiceModel])
-	async invoices(@UserData() user: User) {
-		return this.invoicesService.findAll(user.id);
+	@Query(() => InvoicesModel)
+	async invoices(
+		@UserData() user: User,
+		@Args("status", { nullable: true, type: () => InvoiceStatus })
+		status?: InvoiceStatus,
+		@Args("page", { type: () => Int, defaultValue: 1 }) page?: number,
+		@Args("pageSize", { type: () => Int, defaultValue: 20 })
+		pageSize?: number,
+	) {
+		return this.invoicesService.findPage(user.id, {
+			status,
+			page: page ?? 1,
+			pageSize: pageSize ?? 20,
+		});
 	}
 
 	@Query(() => InvoiceModel)

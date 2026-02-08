@@ -1,3 +1,4 @@
+import { InvoiceStatus } from "@generated/prisma";
 import {
 	Field,
 	Float,
@@ -5,7 +6,6 @@ import {
 	Int,
 	ObjectType,
 } from "@nestjs/graphql";
-import { InvoiceStatus } from "@generated/prisma";
 import { Currency } from "../../enums";
 import { Decimal } from "../../generated/prisma/internal/prismaNamespace";
 
@@ -43,4 +43,7 @@ export class InvoiceItemModel {
 @ObjectType("Invoices")
 export class InvoicesModel {
 	@Field((type) => [InvoiceModel]) data: InvoiceModel[];
+	@Field((type) => Int) total: number;
+	@Field((type) => Int) page: number;
+	@Field((type) => Int) pageSize: number;
 }

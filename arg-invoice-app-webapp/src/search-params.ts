@@ -4,6 +4,8 @@ const INVOICE_DEFAULT = {
 	action: null,
 	invoiceId: null,
 	status: "all" as const,
+	page: 1,
+	pageSize: 20,
 };
 
 const INVOICE_SCHEMA = z.object({
@@ -22,6 +24,18 @@ const INVOICE_SCHEMA = z.object({
 		.literal(["pending", "paid", "all"])
 		.default(INVOICE_DEFAULT.status)
 		.catch(INVOICE_DEFAULT.status),
+	page: z
+		.number()
+		.int()
+		.positive()
+		.default(INVOICE_DEFAULT.page)
+		.catch(INVOICE_DEFAULT.page),
+	pageSize: z
+		.number()
+		.int()
+		.positive()
+		.default(INVOICE_DEFAULT.pageSize)
+		.catch(INVOICE_DEFAULT.pageSize),
 });
 
 export const SEARCH_PARAMS_CONFIG = {
