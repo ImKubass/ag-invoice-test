@@ -1,0 +1,98 @@
+.ui-text-field {
+	display: flex;
+	flex-direction: column;
+}
+
+.ui-text-field__label {
+	@apply typo-body--var;
+
+	color: var(--color-input-label);
+
+	padding-bottom: 0.5rem;
+}
+
+.ui-text-field__label--error {
+	color: var(--color-input-error-text);
+}
+
+.ui-text-field__element {
+	--ui-text-field--border-color: var(--color-input-border);
+	--ui-text-field--border-size: 0.0625rem;
+	--ui-text-field--border-radius: var(--radius-sm);
+	--ui-text-field--bg-color: var(--color-input-bg);
+	--ui-text-field--text-color: var(--color-input-text);
+	--ui-text-field--padding-x: 1.25rem;
+
+	width: 100%;
+	@apply typo-heading-s--var;
+	border-radius: var(--ui-text-field--border-radius);
+
+	color: var(--ui-text-field--text-color);
+
+	transition-property: color, border-color;
+	transition-duration: var(--transition-timing);
+
+	padding-inline: var(--ui-text-field--padding-x);
+	padding-block: 1.125rem 0.9375rem;
+
+	border: var(--ui-text-field--border-size) solid
+		var(--ui-text-field--border-color);
+
+	background-color: var(--ui-text-field--bg-color);
+}
+
+.ui-text-field__element::placeholder {
+	--ui-text-field--text-color: var(--color-input-placeholder-text);
+	color: var(--ui-text-field--text-color);
+}
+
+.ui-text-field__element:hover:not(:disabled),
+.ui-text-field__element:focus {
+	--ui-text-field--border-color: var(--color-input-border-focus);
+}
+
+.ui-text-field__element.ui-text-field__element--error {
+	--ui-text-field--border-color: var(--color-input-border-error);
+}
+
+.ui-text-field__element:disabled {
+	--ui-text-field--text-color: var(--color-input-disabled-text);
+	cursor: default;
+	pointer-events: none;
+}
+
+.ui-text-field__element:not(:disabled)[readonly] {
+	--ui-text-field--border-color: transparent;
+	padding-inline: 0;
+}
+
+.ui-text-field__message {
+	width: 100%;
+	@apply typo-body--var;
+
+	color: var(--color-input-label);
+	margin-top: 0.25rem;
+}
+
+.ui-text-field__message--error {
+	color: var(--color-input-error-text);
+}
+
+/* specific for select element */
+select:not([multiple]).ui-text-field__element {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' viewBox='0 0 24 24'%3e%3cpath fill='%231a1a1a' fill-rule='evenodd' clip-rule='evenodd' d='M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: calc(100% - (var(--ui-text-field--padding-x) / 2));
+	appearance: unset;
+	padding-right: calc(var(--ui-text-field--padding-x) + 20px);
+}
+
+/* specific for color */
+.ui-text-field__element[type="color"] {
+	min-height: 2.5rem;
+}
+
+/* Chrome, Edge, Safari */
+.ui-text-field__element[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}

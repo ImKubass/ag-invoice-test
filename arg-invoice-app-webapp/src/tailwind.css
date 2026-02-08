@@ -1,0 +1,163 @@
+:root {
+	/* figma variables */
+	--color-01: #7c5dfa;
+	--color-02: #9277ff;
+	--color-03: #1e2139;
+	--color-04: #252945;
+	--color-05: #dfe3fa;
+	--color-06: #888eb0;
+	--color-07: #7e88c3;
+	--color-08: #0c0e16;
+	--color-09: #ec5757;
+	--color-10: #ff9797;
+	--color-11: #f8f8fb;
+	--color-12: #141625;
+
+	/* ------------------ */
+	/* Others              */
+	/* ------------------ */
+	--transition-timing: 200ms;
+
+	/* Optical vertical alignment correction for the UI font. */
+	--font-family-correction: 0.25rem;
+}
+
+@theme {
+	--color-*: initial;
+
+	--color-bg: var(--color-11);
+
+	--color-bg-surface: #ffffff;
+	--color-bg-subtle: #f9fafe;
+
+	--color-hover-on-surface-border: var(--color-01);
+
+	--color-text-primary: var(--color-08);
+	--color-text-secondary: var(--color-07);
+	--color-text-subtle: var(--color-06);
+	--color-text-accent: var(--color-01);
+
+	--color-inverted-bg-surface: var(--color-04);
+	--color-inverted-bg-subtle: #494e6e;
+	--color-inverted-text-primary: #ffffff;
+	--color-inverted-text-secondary: var(--color-07);
+
+	/* ================== */
+	/* Actions – Buttons  */
+	/* ================== */
+
+	--color-action-primary-bg: var(--color-01);
+	--color-action-primary-text: #ffffff;
+	--color-action-primary-hover-bg: var(--color-02);
+
+	--color-action-secondary-bg: #f9fafe;
+	--color-action-secondary-text: var(--color-07);
+	--color-action-secondary-hover-bg: var(--color-05);
+
+	--color-action-strong-bg: #373b53;
+	--color-action-strong-text: var(--color-06);
+	--color-action-strong-hover-bg: var(--color-08);
+
+	--color-action-danger-bg: var(--color-09);
+	--color-action-danger-text: #ffffff;
+	--color-action-danger-hover-bg: var(--color-10);
+
+	--color-action-disabled-bg: var(--color-05); /* light gray */
+	--color-action-disabled-text: var(--color-06); /* muted gray */
+
+	/* ================== */
+	/* Form – Input        */
+	/* ================== */
+	/* Background */
+	--color-input-bg: var(--color-bg-surface); /* input background */
+
+	/* Border */
+	--color-input-border: var(--color-05);
+	--color-input-border-focus: var(--color-02);
+	--color-input-border-error: var(--color-09);
+
+	/* Text */
+	--color-input-text: var(--color-text-primary); /* value text */
+	--color-input-label: var(--color-text-secondary); /* label above input */
+	--color-input-error-text: var(--color-input-border-error); /* error message */
+	--color-input-disabled-text: var(--color-06); /* disabled text */
+	--color-input-placeholder-text: rgb(
+		from var(--color-input-text) r g b /
+		40%
+	); /* placeholder text */
+
+	/* Overlay */
+	--color-overlay-bg: rgba(0 0 0 / 0.5); /* dialog/modal backdrop */
+
+	/* ================== */
+	/* Semantic States    */
+	/* ================== */
+	--color-state-success-bg: #e9faf0;
+	--color-state-success-text: #33d69f;
+
+	--color-state-warning-bg: #fff5e5;
+	--color-state-warning-text: #ff8f00;
+
+	--color-state-error-bg: #fff0f0;
+	--color-state-error-text: var(--color-09);
+
+	--color-state-info-bg: #e6edff;
+	--color-state-info-text: var(--color-01);
+
+	/* ================== */
+	/* Effects            */
+	/* ================== */
+	--shadow-*: initial;
+	--shadow-lg: 0px 10px 10px -10px rgba(72 84 159 / 0.1); /* cards */
+
+	/* ------------------ */
+	/* Font Weight         */
+	/* ------------------ */
+	--font-weight-*: initial;
+	--font-weight-medium: 500;
+	--font-weight-bold: 700;
+
+	/* ------------------ */
+	/* Border         */
+	/* ------------------ */
+	--radius-*: initial;
+	--radius-sm: 0.375rem; /* form elements */
+	--radius-lg: 0.5rem; /* cards */
+	--radius-xl: 1.25rem; /* sidebar */
+	--radius-full: calc(infinity * 1px);
+
+	/* ------------------ */
+	/* Z-Index         */
+	/* ------------------ */
+	--z-index-*: initial;
+	--z-index-app-layout-sidebar: 3;
+	--z-index-app-layout-drawer-overlay: 1;
+	--z-index-app-layout-drawer-content: 2;
+
+	/* ================== */
+	/* Spacing        */
+	/* ================== */
+	--spacing-app-layout-sidebar-size: 4.5rem;
+	--spacing-app-layout-content-size: calc(
+		100dvw -
+		var(--spacing-app-layout-sidebar-size)
+	);
+	--spacing-font-family-correction: var(--font-family-correction);
+}
+
+@utility grid-dynamic-cols-* {
+	grid-template-columns: repeat(
+			auto-fill,
+			minmax(min(100%, --value([\*])), 1fr)
+		);
+}
+
+/*
+ * Note for developers: While Tailwind theme config creates CSS variables,
+ * the 'inherit' value doesn't work properly when saved in a CSS variable.
+ * This is a CSS limitation, not a Tailwind issue.
+ * Therefore, we need to use utility classes directly to properly implement inheritance.
+ */
+@utility gap-inherit {
+	gap: inherit;
+}

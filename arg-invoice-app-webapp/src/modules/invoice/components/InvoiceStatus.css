@@ -1,0 +1,36 @@
+.invoice-status {
+	--invoice-status-bg: inherit;
+	--invoice-status-color: inherit;
+
+	background-color: var(--invoice-status-bg);
+	color: var(--invoice-status-color);
+	border-radius: var(--radius-sm);
+	@apply typo-heading-s--var;
+
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	align-items: baseline;
+
+	padding-inline: 1.125rem;
+	padding-top: 0.875rem;
+	padding-bottom: 0.6875rem;
+}
+
+.invoice-status__dot {
+	width: 0.5333em;
+	height: 0.5333em;
+	background-color: var(--invoice-status-color);
+	border-radius: var(--radius-full);
+	flex-shrink: 0;
+}
+
+.invoice-status--pending {
+	--invoice-status-bg: var(--color-state-warning-bg);
+	--invoice-status-color: var(--color-state-warning-text);
+}
+
+.invoice-status--paid {
+	--invoice-status-bg: var(--color-state-success-bg);
+	--invoice-status-color: var(--color-state-success-text);
+}

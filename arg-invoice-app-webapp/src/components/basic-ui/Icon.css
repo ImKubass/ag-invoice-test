@@ -1,0 +1,15 @@
+.ui-icon {
+	--ui-icon-size: 1em;
+
+	/* variables added with script when the icons sprite is generated */
+	--ui-icon-fill-svg: none;
+	--ui-icon-fill: currentColor;
+	--ui-icon-stroke: currentColor;
+	--ui-icon-stroke-width: inherit;
+
+	width: var(--ui-icon-size);
+	height: var(--ui-icon-size);
+	flex-shrink: 0;
+	/* default stroke value of the .ui-icon */
+	stroke-width: 2;
+}

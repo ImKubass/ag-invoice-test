@@ -1,0 +1,40 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"target": "es2022",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		"isolatedModules": true,
+
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"outDir": "./dist",
+
+		"lib": ["es2022"],
+
+		"declaration": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+
+		"baseUrl": "./",
+		"incremental": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"strictBindCallApply": false,
+		"noFallthroughCasesInSwitch": false,
+
+		"paths": {
+			"@generated/prisma": ["src/generated/prisma/client"]
+		}
+	}
+}

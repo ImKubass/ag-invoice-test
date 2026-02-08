@@ -1,0 +1,41 @@
+@utility typo-heading-l {
+	font-weight: var(--font-weight-bold);
+	font-size: 2.25rem;
+	line-height: 2.0625rem;
+	letter-spacing: -0.0625rem;
+}
+
+@utility typo-heading-m {
+	font-weight: var(--font-weight-bold);
+	font-size: 1.5rem;
+	line-height: 1.375rem;
+	letter-spacing: -0.046875rem;
+}
+
+@utility typo-heading-s {
+	font-weight: var(--font-weight-bold);
+	font-size: 0.9375rem;
+	line-height: 1.5rem;
+	letter-spacing: -0.015625rem;
+}
+
+@utility typo-heading-s--var {
+	font-weight: var(--font-weight-bold);
+	font-size: 0.9375rem;
+	line-height: 0.9375rem;
+	letter-spacing: -0.015625rem;
+}
+
+@utility typo-body {
+	font-weight: var(--font-weight-medium);
+	font-size: 0.8125rem;
+	line-height: 1.125rem;
+	letter-spacing: -0.00625rem;
+}
+
+@utility typo-body--var {
+	font-weight: var(--font-weight-medium);
+	font-size: 0.8125rem;
+	line-height: 0.9375rem;
+	letter-spacing: -0.015625rem;
+}

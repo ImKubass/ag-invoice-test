@@ -1,0 +1,136 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccessToken {
+  accessToken: String!
+}
+
+input CreateInvoiceInput {
+  currency: Currency
+  customerCity: String!
+  customerCountry: String!
+  customerEmail: String!
+  customerName: String!
+  customerStreet: String!
+  customerZip: String!
+  dueDate: DateTime!
+  issueDate: DateTime!
+  items: [InvoiceItemInput!]!
+  projectDescription: String!
+  vendorCity: String!
+  vendorCountry: String!
+  vendorStreet: String!
+  vendorZip: String!
+}
+
+enum Currency {
+  czk
+  eur
+  usd
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Invoice {
+  amount: Float!
+  currency: Currency!
+  customerCity: String!
+  customerCountry: String!
+  customerEmail: String!
+  customerName: String!
+  customerStreet: String!
+  customerZip: String!
+  dueDate: DateTime!
+  id: Int!
+  issueDate: DateTime!
+  items: [InvoiceItem!]!
+  number: String!
+  projectDescription: String!
+  status: InvoiceStatus!
+  vendorCity: String!
+  vendorCountry: String!
+  vendorStreet: String!
+  vendorZip: String!
+}
+
+type InvoiceItem {
+  description: String!
+  id: Int!
+  pricePerUnit: Float!
+  quantity: Float!
+}
+
+input InvoiceItemInput {
+  description: String!
+  id: Int
+  pricePerUnit: Float!
+  quantity: Float!
+}
+
+enum InvoiceStatus {
+  paid
+  pending
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createInvoice(input: CreateInvoiceInput!): Invoice!
+  deleteInvoice(id: Int!): Success!
+
+  """
+  "Authenticate user with email and password and return a JWT access token. The token must be passed in the Authorization header for authenticated requests (e.g., 'Authorization: Bearer <token>')
+  """
+  login(input: LoginInput!): AccessToken!
+
+  """Switch invoice between `paid` and `pending` status"""
+  markAsPaid(id: Int!, paid: Boolean!): Invoice!
+  register(input: RegisterInput!): Success!
+  updateInvoice(id: Int!, input: UpdateInvoiceInput!): Invoice!
+}
+
+type Query {
+  invoice(id: Int!): Invoice!
+  invoices: [Invoice!]!
+  me: User!
+  status: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+}
+
+type Success {
+  success: Boolean!
+}
+
+input UpdateInvoiceInput {
+  currency: Currency
+  customerCity: String!
+  customerCountry: String!
+  customerEmail: String!
+  customerName: String!
+  customerStreet: String!
+  customerZip: String!
+  dueDate: DateTime!
+  issueDate: DateTime!
+  items: [InvoiceItemInput!]!
+  projectDescription: String!
+  vendorCity: String!
+  vendorCountry: String!
+  vendorStreet: String!
+  vendorZip: String!
+}
+
+type User {
+  email: String!
+  id: Int!
+}

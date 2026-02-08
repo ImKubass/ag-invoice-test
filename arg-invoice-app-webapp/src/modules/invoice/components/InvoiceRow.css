@@ -1,0 +1,51 @@
+.invoice-row {
+	display: grid;
+	grid-template-columns:
+		10ch
+		minmax(8ch, 16ch)
+		minmax(10ch, 20ch)
+		minmax(12ch, 1fr)
+		6.5rem
+		1rem;
+	min-width: min-content;
+	gap: 1.5rem;
+	justify-content: space-between;
+	align-items: center;
+
+	background-color: var(--color-bg-surface);
+
+	border: 1px solid transparent;
+
+	transition-property: border-color;
+	transition-duration: var(--transition-timing);
+}
+
+.invoice-row__number {
+	@apply typo-heading-s--var;
+}
+
+.invoice-row__customer-name {
+	@apply typo-body--var;
+	color: var(--color-text-secondary);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.invoice-row__due-date {
+	@apply typo-body--var;
+	color: var(--color-text-secondary);
+}
+
+.invoice-row__amount {
+	@apply typo-heading-s;
+	text-align: right;
+}
+
+.invoice-row__chevron {
+	color: var(--color-action-primary-bg);
+}
+
+.invoice-row:focus,
+.invoice-row:hover {
+	border-color: var(--color-hover-on-surface-border);
+}

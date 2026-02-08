@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
+
+@import "tailwindcss";
+@import "./tailwind.css";
+
+@import "./components/basic-ui/basic-ui.barrel.css";
+@import "./modules/invoice/invoice.barrel.css";
+
+:root {
+	font-family:
+		"League Spartan", system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text-primary);
+	background-color: var(--color-bg);
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

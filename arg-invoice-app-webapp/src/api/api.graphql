@@ -1,0 +1,70 @@
+mutation login($input: LoginInput!) {
+	login(input: $input) {
+		accessToken
+	}
+}
+
+mutation register($input: RegisterInput!) {
+	register(input: $input) {
+		success
+	}
+}
+
+query me {
+	me {
+		id
+	}
+}
+
+query invoice($id: Int!) {
+	invoice(id: $id) {
+		id
+		amount
+		currency
+		customerCity
+		customerCountry
+		customerEmail
+		customerName
+		customerStreet
+		customerZip
+		dueDate
+		issueDate
+		items {
+			id
+			description
+			pricePerUnit
+			quantity
+		}
+		number
+		projectDescription
+		status
+		vendorCity
+		vendorCountry
+		vendorStreet
+		vendorZip
+	}
+}
+
+mutation createInvoice($input: CreateInvoiceInput!) {
+	createInvoice(input: $input) {
+		id
+	}
+}
+
+mutation updateInvoice($id: Int!, $input: UpdateInvoiceInput!) {
+	updateInvoice(id: $id, input: $input) {
+		id
+	}
+}
+
+mutation deleteInvoice($id: Int!) {
+	deleteInvoice(id: $id) {
+		success
+	}
+}
+
+mutation markInvoiceAsPaid($id: Int!, $paid: Boolean!) {
+	markAsPaid(id: $id, paid: $paid) {
+		id
+	}
+}

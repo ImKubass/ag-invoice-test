@@ -1,0 +1,46 @@
+{
+	"name": "nest-tiny-starter",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"packageManager": "yarn@4.6.0",
+	"scripts": {
+		"build": "yarn prisma generate && swc ./src -d dist --strip-leading-paths",
+		"start": "node dist/main.js",
+		"start:dev": "node -r @swc-node/register --env-file=.env --enable-source-maps --watch src/main.ts",
+		"types": "tsc",
+		"types:watch": "yarn types -w --preserveWatchOutput"
+	},
+	"engines": {
+		"node": ">=22.0.0"
+	},
+	"dependencies": {
+		"@envelop/graphql-jit": "^11.0.0",
+		"@graphql-yoga/nestjs": "^3.19.0",
+		"@nestjs/common": "^11.1.6",
+		"@nestjs/core": "^11.1.6",
+		"@nestjs/graphql": "^13.2.3",
+		"@nestjs/jwt": "^11.0.2",
+		"@nestjs/platform-fastify": "^11.1.11",
+		"@prisma/adapter-pg": "^7.2.0",
+		"@prisma/client": "^7.2.0",
+		"bcrypt": "^6.0.0",
+		"graphql": "^16.12.0",
+		"graphql-yoga": "^5.18.0",
+		"pg": "^8.16.3",
+		"prisma": "^7.2.0",
+		"reflect-metadata": "^0.2.2",
+		"rxjs": "^7.8.2",
+		"zod": "^4.3.5"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.3",
+		"@swc-node/register": "^1.11.1",
+		"@swc/cli": "^0.7.8",
+		"@swc/core": "^1.13.5",
+		"@types/bcrypt": "^6",
+		"@types/node": "^24.3.1",
+		"@types/pg": "^8",
+		"typescript": "^5.9.2"
+	}
+}
